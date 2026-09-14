@@ -3,7 +3,7 @@ from pypdf import PdfReader
 from typing import Protocol
 import hashlib
 
-from escolio.models import Document, PageText
+from escolio.models import Document, PageText, LoadReport, LoadFailure
 
 
 class TextExtractor(Protocol):
@@ -32,4 +32,24 @@ def load_document(path: Path, extractor: TextExtractor) -> Document:
         pages=tuple(extractor.extract(path))
         )
     return document
+
+def load_folder(folder: Path, extractor: TextExtractor) -> LoadReport:
+    """Builds a corpus from a folder, using the given extractor"""
+    documents: list[Document] = []
+    failures: list[LoadFailure] = []
+    for file in sorted(folder.rglob("*.pdf")): #v0 only load pdf. sorted for reproducibility and testing
+        try:
+          document = load_document(file, extractor)
+        except Exception as e:
+          failures.append(LoadFailure(
+              path=file,
+              reason=str(e),
+          ))
+          continue
+        documents.append(document)
+    return LoadReport(documents=tuple(documents), failures=tuple(failures))
+
+
+
+
 

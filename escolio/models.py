@@ -19,3 +19,13 @@ class Document:
     def page_count(self) -> int:
         return len(self.pages)
 
+@dataclass(frozen=True)
+class LoadFailure:
+    path: Path
+    reason: str
+
+
+@dataclass(frozen=True)
+class LoadReport:
+    documents: tuple[Document, ...]
+    failures: tuple[LoadFailure, ...]
