@@ -1,3 +1,25 @@
+[project]
+name = "escolio"
+version = "0.1.0"
+description = "Question answering over a personal collection of papers, with verifiable citations"
+requires-python = ">=3.14"
+dependencies = [
+    "pypdf",
+    "fonttools",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy",
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.mypy]
 python_version = "3.14"
 strict = true
