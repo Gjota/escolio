@@ -29,3 +29,11 @@ class LoadFailure:
 class LoadReport:
     documents: tuple[Document, ...]
     failures: tuple[LoadFailure, ...]
+
+@dataclass(frozen=True)
+class Chunk:
+    doc_id: str
+    position: int
+    text: str
+    start_page: int
+    end_page: int
