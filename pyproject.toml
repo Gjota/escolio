@@ -4,14 +4,11 @@ version = "0.1.0"
 description = "Question answering over a personal collection of papers, with verifiable citations"
 requires-python = ">=3.14"
 dependencies = [
-    "pypdf",
-    "fonttools",
-]
-
-[project.optional-dependencies]
-dev = [
-    "mypy",
-    "pytest"
+    "pypdf>=6.19.0",
+    # Not imported directly. pypdf uses it, when present, to decode CFF Type1
+    # font encodings; without it text extraction degrades and emits warnings.
+    "fonttools>=4.66.0",
+    "sentence-transformers>=6.1.0",
 ]
 
 [build-system]
@@ -24,3 +21,9 @@ where = ["src"]
 [tool.mypy]
 python_version = "3.14"
 strict = true
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pytest>=9.1.1",
+]
